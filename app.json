@@ -1,0 +1,110 @@
+function getAverageGrade(student) {
+  if (!student || !Array.isArray(student.grades) || student.grades.length === 0) {
+    return 0;
+  }
+  const total = student.grades.reduce((sum, grade) => sum + grade, 0);
+  return Number((total / student.grades.length).toFixed(2));
+}
+
+//Get top N students sorted by average grade
+function getTopStudents(studentsList, n) {
+  if (!Array.isArray(studentsList)) throw new Error("Invalid student dataset provided.");
+  if (typeof n !== "number" || n < 0) throw new Error("Parameter 'n' must be a non-negative number.");
+
+  return [...studentsList]
+    .sort((a, b) => getAverageGrade(b) - getAverageGrade(a))
+    .slice(0, n);
+}
+
+//Group students by course
+function groupByCourse(studentsList) {
+  if (!Array.isArray(studentsList)) throw new Error("Invalid student dataset provided.");
+
+  return studentsList.reduce((acc, student) => {
+    const course = student.course || "Unassigned";
+    if (!acc[course]) {
+      acc[course] = [];
+    }
+    acc[course].push(student);
+    return acc;
+  }, {});
+}
+
+//Count enrolled vs non-enrolled students
+function getEnrolledCount(studentsList) {
+  if (!Array.isArray(studentsList)) throw new Error("Invalid student dataset provided.");
+
+  return studentsList.reduce(
+    (acc, student) => {
+      if (student.enrolled) {
+        acc.enrolled++;
+      } else {
+        acc.notEnrolled++;
+      }
+      return acc;
+    },
+    { enrolled: 0, notEnrolled: 0 }
+  );
+}
+
+//Find a student by name (case-insensitive)
+function findStudent(studentsList, name) {
+  if (!Array.isArray(studentsList) || typeof name !== "string") return null;
+
+  const searchTarget = name.trim().toLowerCase();
+  const match = studentsList.find((student) => student.name.toLowerCase() === searchTarget);
+  return match || null;
+}
+
+//Get average grade per course sorted high-to-low
+function getCourseAverages(studentsList) {
+  if (!Array.isArray(studentsList) || studentsList.length === 0) return [];
+
+  const grouped = groupByCourse(studentsList);
+
+  const averages = Object.keys(grouped).map((course) => {
+    const courseStudents = grouped[course];
+    const totalGrades = courseStudents.map((s) => getAverageGrade(s));
+    const courseAvg = totalGrades.reduce((sum, avg) => sum + avg, 0) / totalGrades.length;
+
+    return {
+      course: course,
+      averageGrade: Number(courseAvg.toFixed(2))
+    };
+  });
+
+  return averages.sort((a, b) => b.averageGrade - a.averageGrade);
+}
+
+//Export summary object matching exact JSON schema
+function exportSummary(studentsList) {
+  if (!Array.isArray(studentsList) || studentsList.length === 0) {
+    return {
+      totalStudents: 0,
+      overallAverageGrade: 0,
+      topPerformingStudent: null,
+      breakdownByCourse: []
+    };
+  }
+
+  const totalStudents = studentsList.length;
+  const overallSum = studentsList.reduce((sum, student) => sum + getAverageGrade(student), 0);
+  const overallAverageGrade = Number((overallSum / totalStudents).toFixed(2));
+  
+  const topStudent = getTopStudents(studentsList, 1)[0] || null;
+  const topPerformingStudent = topStudent
+    ? {
+        ...topStudent,
+        average: getAverageGrade(topStudent)
+      }
+    : null;
+
+  const breakdownByCourse = getCourseAverages(studentsList);
+
+  return {
+    totalStudents,
+    overallAverageGrade,
+    topPerformingStudent,
+    breakdownByCourse
+  };
+}
