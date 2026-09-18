@@ -1,0 +1,76 @@
+const students = [
+  { 
+    id: 101, 
+    name: "Ma. Trisha Agravante", 
+    year: 1, course: "BSIT", 
+    grades: [88, 92, 95, 90], 
+    enrolled: true 
+  },
+  { 
+    id: 102, 
+    name: "Mara Clara",
+    year: 2, course: "BEED", 
+    grades: [75, 80, 78], 
+    enrolled: true 
+  },
+  { 
+    id: 103, 
+    name: "Marvin Buenafe", 
+    year: 3, course: "BEED", 
+    grades: [92, 94, 98, 96], 
+    enrolled: false 
+  },
+  { 
+    id: 104, 
+    name: "Renalyn Esteban",
+    year: 1, 
+    course: "BSIT", 
+    grades: [85, 87, 90], 
+    enrolled: true 
+  },
+  { 
+    id: 105,
+    name: "Ethan Hunt", 
+    year: 4,
+    course: "BSIT", 
+    grades: [60, 70, 68],
+    enrolled: false
+  },
+  { 
+    id: 106, 
+    name: "Kate Fernandez", 
+    year: 2, 
+    course: "BSIT", 
+    grades: [81, 84, 89],
+    enrolled: true 
+  },
+  { 
+    id: 107, 
+    name: "Mary Joy Pidoy", 
+    year: 3, course: "BSAB", 
+    grades: [90, 91, 93],
+    enrolled: true 
+  },
+  { 
+    id: 108, 
+    name: "CJ Demafelis", 
+    year: 1, course: "BSIT", 
+    grades: [95, 96, 99], 
+    enrolled: true
+  },
+  { 
+    id: 109, 
+    name: "Yana Alizia Dumaguit", 
+    year: 4, 
+    course: "BEED",
+    grades: [72, 75, 80], 
+    enrolled: false },
+  { 
+    id: 110,
+    name: "Yohan DUmaguit", 
+    year: 2, 
+    course: "BSAB",
+    grades: [88, 90, 87],
+    enrolled: true 
+  }
+]
