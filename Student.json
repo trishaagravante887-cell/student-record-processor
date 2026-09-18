@@ -1,4 +1,4 @@
-const students = [
+[
   { 
     id: 101, 
     name: "Ma. Trisha Agravante", 
